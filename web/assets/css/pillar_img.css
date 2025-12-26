@@ -1,0 +1,66 @@
+.image-left,
+.image-right {
+    position: absolute;
+    position: fixed;
+    top: 0;
+    height: 200vh;
+    width: 200px;
+    background-size: cover;
+    background-position: center;
+    z-index: 20;
+}
+
+.image-left {
+    left: 0;
+    background-image: url("/assets/img/left.jpg");
+}
+
+.image-right {
+    right: 0;
+    background-image: url("/assets/img/right.jpg");
+}
+
+@media (max-width: 1700px) {
+    .image-left,
+    .image-right {
+        width: 100px;
+        display: block;
+    }
+}
+@media (min-width: 1200px) {
+    .image-left,
+    .image-right {
+        width: 80px;
+        display: block;
+    }
+}
+@media (min-width: 1350px) {
+    .image-left,
+    .image-right {
+        width: 110px;
+        display: block;
+    }
+}
+@media (min-width: 1500px) {
+    .image-left,
+    .image-right {
+        width: 200px;
+        display: block;
+    }
+}
+@media (max-width: 600px) {
+    .image-left,
+    .image-right {
+        width: 40px;
+        display: block;
+    }
+}
+/* 1700px以下でも600px以下の条件を優先したい場合 */
+@media (max-width: 600px) {
+    @media (max-width: 1700px) {
+        .image-left,
+        .image-right {
+            display: block;
+        }
+    }
+}

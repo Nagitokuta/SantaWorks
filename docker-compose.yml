@@ -1,0 +1,33 @@
+version: "3.5"
+
+services:
+    php-apache:
+        container_name: santa_php_apache
+        image: senseshare/php-apache
+        ports:
+            - 8080:80
+            - 443:443
+        volumes:
+            - ./web:/var/www/html
+            - ./logs:/var/app/logs
+            - ./.env:/var/www/.env:ro
+        restart: always
+
+    mysql:
+        container_name: santa_mysql
+        image: senseshare/mysql
+        volumes:
+            - ./mysql:/var/lib/mysql
+        environment:
+            MYSQL_ROOT_PASSWORD: "password"
+        restart: always
+
+    phpmyadmin:
+        container_name: santa_phpmyadmin
+        image: phpmyadmin/phpmyadmin
+        ports:
+            - 4040:80
+        environment:
+            PMA_HOST: "mysql"
+            PMA_USER: "root"
+            PMA_PASSWORD: "password"

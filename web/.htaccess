@@ -1,0 +1,30 @@
+ErrorDocument 400 /error-400.html
+ErrorDocument 403 /error-403.html
+ErrorDocument 404 /error-404.html
+ErrorDocument 500 /error-500.html
+
+<IfModule mod_rewrite.c>
+RewriteEngine on
+
+#httpでアクセスされたらhttpsに強制転送
+# RewriteCond %{SERVER_PORT} !^443$
+# RewriteRule ^.*$ https://%{SERVER_NAME}%{REQUEST_URI} [R=301,L]
+
+# /error-XXX.htmlだった場合
+RewriteCond %{REQUEST_FILENAME} ^(.*)error-([0-9]*).html$
+# /error.php?code=XXXに書き換え
+RewriteRule ^(.*)error-([0-9]*).html$ /error.php?code=$2 [L]
+
+# 以下のURIは無限ループになるため除外する
+RewriteCond %{REQUEST_URI} !^/error.php$
+RewriteCond %{REQUEST_URI} !^/index.php$
+RewriteCond %{REQUEST_URI} !^/robots.txt$
+RewriteCond %{REQUEST_URI} !^/sitemap.xml$
+RewriteCond %{REQUEST_URI} !^/.well-known/(.*)$
+RewriteCond %{REQUEST_URI} !^/assets/(.*)$
+RewriteCond %{REQUEST_URI} !^/docs/(.*)$
+RewriteCond %{REQUEST_URI} !^/phpmyadmin/(.*)$
+
+# URLは全て/index.php?path=XXXに書き換え（QSAオプションで元のURLについていたパラメーターを結合）
+RewriteRule ^(.*)$ /index.php?path=%{REQUEST_URI} [L,QSA]
+</IfModule>
